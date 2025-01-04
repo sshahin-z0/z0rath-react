@@ -1,0 +1,46 @@
+{
+  "name": "z0rath-react",
+  "version": "1.0.0",
+  "description": "React component wrapper for Z0rath (Centralized Authorization System)",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c --bundleConfigAsCjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sshahin-z0/z0rath-react.git"
+  },
+  "keywords": [
+    "React",
+    "Z0rath",
+    "Authz",
+    "Authorization",
+    "Centralized"
+  ],
+  "author": "Shadi Shahin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sshahin-z0/z0rath-react/issues"
+  },
+  "homepage": "https://github.com/sshahin-z0/z0rath-react#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.2",
+    "rollup": "^4.29.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0 || 17.x || 18.x || 19.x",
+    "react-dom": "^16.14.0 || 17.x || 18.x || 19.x"
+  }
+}
