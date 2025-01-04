@@ -1,10 +1,10 @@
 {
   "name": "z0rath-react",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "React component wrapper for Z0rath (Centralized Authorization System)",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs"
