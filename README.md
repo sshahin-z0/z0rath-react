@@ -110,6 +110,59 @@ You can manage multiple permissions within your app by nesting HasPermission com
 
 ----------------
 
+# Demo
+https://youtu.be/HRSr7W2WWvU
+```typescript jsx
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {HasPermission, Z0rathProvider} from "z0rath-react";
+
+const ProtectedComponent = ({user}: { user: string }) => {
+    return (
+        <Z0rathProvider
+            apiKey={"your_organization_api_key"}
+            user={user}
+        >
+            <HasPermission slug={"write"}>
+                <img src={logo} className="App-logo" alt="logo"/>
+            </HasPermission>
+        </Z0rathProvider>
+    );
+};
+
+function UserView({user, name}: { user: string, name: string }) {
+    return <div
+        style={{
+            flex: 1,
+            padding: '20px',
+            borderRight: '2px solid #ccc',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#f9f9f9',
+        }}
+    >
+        <div>{name} view - Protected react logo by Z0rath</div>
+        <div>Requires permission "write"</div>
+        <div style={{flex: 1}}><ProtectedComponent user={user}/></div>
+    </div>;
+}
+
+function App() {
+    return (
+        <div className="App">
+            <div style={{display: 'flex', height: '100vh'}}>
+                <UserView user={'john@zonezero.dev'} name='John'/>
+                <UserView user={'admin@zonezero.dev'} name='Admin'/>
+            </div>
+        </div>
+    );
+}
+
+```
+
 # Contributing
 
 We welcome contributions to the z0rath-react library! If you find any bugs or want to suggest a feature, please open an issue or create a pull request.
