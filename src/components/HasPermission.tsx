@@ -12,12 +12,16 @@ import {useZ0rath} from "./Z0rathContext";
 const useHasPermission = (slug: string) => {
   const { user, apiKey } = useZ0rath();
   const [hasPermission, setHasPermission] = useState<boolean>();
+  const abortControllerRef = useRef<AbortController | null>(null); // Reference to hold the controller
   const fetchPermission = useCallback(() => {
     if (!user) {
       setHasPermission(false);
       return;
     }
     const url = `https://z0rath-api.zonezero.dev/api/v1/authorization/has_permission?user=${user}&slug=${slug}`;
+    abortControllerRef.current?.abort(); // Abort the request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
     fetch(url, {
       method: "GET",
       headers: {
@@ -25,26 +29,33 @@ const useHasPermission = (slug: string) => {
         "x-api-key": apiKey,
       },
       credentials: "omit",
+      signal: abortControllerRef.current?.signal
     })
-      .then(async (response) => {
-        if (!response.ok) {
-          if (response.status === 403) {
-            // doesn't have access
-            setHasPermission(false);
+        .then(async (response) => {
+          if (!response.ok) {
+            if (response.status === 403) {
+              // doesn't have access
+              setHasPermission(false);
+            } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
           } else {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            const data = await response.json();
+            setHasPermission(data.hasPermission);
           }
-        } else {
-          const data = await response.json();
-          setHasPermission(data.hasPermission);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching permission:", error);
-      });
+        })
+        .catch((error) => {
+          if (error.name === "AbortError") {
+            return;
+          }
+          console.error("Error fetching permission:", error);
+        });
   }, [slug, user, apiKey]);
   useEffect(() => {
     fetchPermission();
+    return ()=>{
+      abortControllerRef.current?.abort();
+    }
   }, [fetchPermission]);
 
   const fetchPermissionRef = useRefProp(fetchPermission);
